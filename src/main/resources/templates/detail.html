@@ -10,6 +10,33 @@
 <script>
 
 
+    $(document).ready(function () {
+        getComment();
+    })
+    function getComment() {
+        let id = $('#num').text();
+        $.ajax({
+            type: 'GET',
+            url: `/board/${id}/comment`,
+            success: function (response) {
+                for (let i = 0; i < response.length; i++) {
+                    let message = response[i];
+                    let text = message['text'];
+                    let username = message['username'];
+                    addHtml(text,username);
+                }
+            }
+        })
+    }
+
+    function addHtml(text,username) {
+        let tempHtml=`<td>${text}</td><td>${username}</td>`;
+        $('#flag').append(tempHtml);
+    }
+
+
+
+
     function deleteOne() {
         let id =  $('#num').text();
         $.ajax({
@@ -25,6 +52,23 @@
     function updateForm() {
         let id =  $('#num').text();
         location.href = "/board/update/" + id;
+    }
+
+    function addComment() {
+        let id =  $('#num').text();
+        let text = $('#text').val();
+        let username = $('#username').val();
+
+        let data = {'text': text,'username':username};
+        $.ajax({
+            type: "POST",
+            url: `/board/${id}/comment`,
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (response) {
+                window.location.reload();
+            }
+        });
     }
 </script>
 
@@ -49,5 +93,20 @@
     </tr>
     </tbody>
 </table>
+<br><br>
+<br><br><br><br><br>
+
+<textarea cols="15" rows="5" id="text"></textarea>
+작성자<input type="text" id="username">
+<input type="button" value="작성" onclick="addComment()">
+
+<table id="flag">
+    <tr>
+        <td>이름</td><td>내용</td>
+    </tr>
+
+
+</table>
+
 </body>
 </html>
