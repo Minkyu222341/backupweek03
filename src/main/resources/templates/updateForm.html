@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<script>
+    function isValidContents(content_cover) {
+        if (content_cover == '') {
+            alert('내용을 입력해주세요');
+            return false;
+        }
+        if (content_cover.trim().length > 140) {
+            alert('공백 포함 140자 이하로 입력해주세요');
+            return false;
+        }
+        return true;
+    }
+
+
+    function updatePost() {
+        // 1. 작성 대상 메모의 username과 contents 를 확인합니다.
+        let id = $('#num').text();
+        let content = $('#content').val();
+        let author = $('#author').text();
+        let password = $('#password').val();
+        let title = $('#title').val();
+
+        // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+        if (isValidContents(content) == false) {
+            return;
+        }
+        if (isValidContents(title) == false) {
+            return;
+        }
+
+        // 3. 전달할 data JSON으로 만듭니다.
+        let data = {'content': content, 'password': password, 'title': title, 'author': author};
+
+        // 4. PUT /api/memos/{id} 에 data를 전달합니다.
+        $.ajax({
+            type: "PUT",
+            url: `/board/${id}`,
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (response) {
+                alert('메시지 변경에 성공하였습니다.');
+                window.location.href = "/";
+            }
+        });
+    }
+
+
+</script>
+
+<body>
+<table id="article">
+    <tbody id="tableBody">
+    <tr>
+        <td>글번호</td>
+        <td>제목</td>
+        <td>작성자</td>
+        <td>시간</td>
+        <td>내용</td>
+        <td>비밀번호</td>
+    </tr>
+    <tr th:each="board : ${boards}">
+        <td th:text="${board.id}" id="num"></td>
+        <td><input type="text" th:text="${board.title}" id="title"/></td>
+        <td th:text="${board.author}" id="author">작성자</td>
+        <td th:text="${board.createdAt}">시간</td>
+        <td th:text="${board.content}">시간</td>
+        <td><textarea type="text" th:text="${board.content}"id="content"></textarea></td>
+        패스워드입력<input type="password" id="password">
+        <td><input type="button" value="수정" onclick="updatePost()"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

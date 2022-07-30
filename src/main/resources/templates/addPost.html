@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<script>
+    function writePost() {
+        // 1. 작성한 메모를 불러옵니다.
+        let content = $('#content').val();
+        let title = $('#title').val();
+        let author = $('#author').val();
+        let password = $('#password').val();
+
+
+        // 4. 전달할 data JSON으로 만듭니다.
+        let data = {'title': title, 'content': content,'author':author,'password':password};
+
+        // 5. POST /api/memos 에 data를 전달합니다.
+        $.ajax({
+            type: "POST",
+            url: "/board",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (response) {
+                window.location.href="/";
+            }
+        });
+    }
+
+</script>
+<body>
+
+<div id="content_cover">
+  제목 <input type="text" id="title" name="title">
+  작성자<input type="text" id="author" name="author">
+  비밀번호<input type="password" id="password" name="password">
+  <textarea cols="30" rows="6" id="content" name="content"></textarea>
+  <img src="images/send.png" alt="" onclick="writePost()" id="btn">
+</div>
+
+</body>
+</html>

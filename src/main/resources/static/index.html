@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+    <style>
+        #article{
+            border: 1px solid black;
+        }
+        td{
+            border: 1px solid black;
+        }
+        #btn:hover{cursor: pointer}
+    </style>
+<script>
+
+
+    $(document).ready(function () {
+// HTML 문서를 로드할 때마다 실행합니다.
+        getMessages();
+    })
+
+    // 메모를 불러와서 보여줍니다.
+    function getMessages() {
+// 1. 기존 메모 내용을 지웁니다.
+//         $('#article').empty();
+// 2. 메모 목록을 불러와서 HTML로 붙입니다.
+        $.ajax({
+            type: 'GET',
+            url: '/board',
+            success: function (response) {
+                for (let i = 0; i < response.length; i++) {
+                    let message = response[i];
+                    let id = message['id'];
+                    let author = message['author'];
+                    let title = message['title'];
+                    let createdAt = message['createdAt'];
+                    addHtml(id,author,title,createdAt);
+                }
+            }
+        })
+    }
+
+
+
+
+    function addHtml(id,author,title,createdAt) {
+        let tempHtml=`<tr onclick="detail(${id}})"><td id="id">${id}</td>
+                                <td id="${id}-title" name="title" >${title}</td>
+                                <td id="${id}-author" name="author">${author}</td>
+                                <td id="modifiedAt" name="modifiedAt">${createdAt}</td>
+
+                                <td><input type="button" value="click" onclick="location_detail(${id})"></td>
+
+                                </tr>`;
+        $('#tableBody').append(tempHtml);
+    }
+
+    function isValidContents(content_cover) {
+        if (content_cover == '') {
+            alert('내용을 입력해주세요');
+            return false;
+        }
+        if (content_cover.trim().length > 140) {
+            alert('공백 포함 140자 이하로 입력해주세요');
+            return false;
+        }
+        return true;
+    }
+
+    function location_detail(id) {
+        location.href="/board/"+id;
+    }
+
+
+</script>
+<body>
+    <a href="/add">글 작성</a>
+<table id="article">
+    <tbody id="tableBody">
+    <tr>
+        <td>글번호</td><td>제목</td><td>작성자</td><td>시간</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

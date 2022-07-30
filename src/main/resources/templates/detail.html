@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<script>
+
+
+    function deleteOne() {
+        let id =  $('#num').text();
+        $.ajax({
+            type: "DELETE",
+            url: `/board/${id}`,
+            contentType: "application/json",
+            success: function (response) {
+                window.location.href="/";
+            }
+        })
+    }
+
+    function updateForm() {
+        let id =  $('#num').text();
+        location.href = "/board/update/" + id;
+    }
+</script>
+
+<body>
+<table id="article">
+    <tbody id="tableBody">
+    <tr>
+        <td>글번호</td>
+        <td>제목</td>
+        <td>작성자</td>
+        <td>시간</td>
+    </tr>
+    <tr th:each="board : ${boards}">
+        <td th:text="${board.id}" id="num">글번호</td>
+        <td th:text="${board.title}">제목</td>
+        <td th:text="${board.author}">작성자</td>
+        <td th:text="${board.createdAt}">시간</td>
+        <td th:text="${board.content}">시간</td>
+        <input type="password" id="password">
+        <td><input type="button" value="삭제" onclick="deleteOne()"></td>
+        <td><input type="button" value="수정" onclick="updateForm()"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
