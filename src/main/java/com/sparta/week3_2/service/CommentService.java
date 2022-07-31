@@ -24,13 +24,13 @@ public class CommentService {
 
 
     @Transactional
-    public Long commentSave(Long id, CommentRequestDto dto) {
+    public String commentSave(Long id, CommentRequestDto dto) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("댓글 쓰기 실패: 해당 게시글이 존재하지 않습니다." + id));
         log.info("Service 값 테스트 내용={}", dto.getText());
         
         Comment comment = new Comment(dto,board);
         commentRepository.save(comment);
-        return dto.getId();
+        return "ok";
     }
 
     public List<CommentResponseDto> getCommentList(Long id) {
@@ -42,6 +42,27 @@ public class CommentService {
         return dtos;
     }
 
+    public List<CommentResponseDto> getAll() {
+        List<Comment> all = commentRepository.findAll();
+        List<CommentResponseDto> dtos = new ArrayList<>();
+        for (Comment comment : all) {
+            dtos.add(new CommentResponseDto(comment));
+        }
+        return dtos;
+    }
 
+    public String delete(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지않음"));
+        commentRepository.deleteById(comment.getId());
+        return comment.getId()+" 삭제 ";
+    }
 
+    @Transactional
+    public String update(Long id, CommentRequestDto commentRequestDto) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지않음"));
+        System.out.println("수정 전  "+comment.getText() + " : "+comment.getUsername());
+        comment.update(commentRequestDto);
+        System.out.println("수정 후  "+comment.getText() + " : "+comment.getUsername());
+        return comment.getId() + " 수정";
+    }
 }

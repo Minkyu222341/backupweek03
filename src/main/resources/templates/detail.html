@@ -30,7 +30,10 @@
     }
 
     function addHtml(text,username) {
-        let tempHtml=`<td>${text}</td><td>${username}</td>`;
+        let tempHtml=`<td>${text}</td><td>${username}</td>
+                        <td><input type="button" value="수정"></td>
+                        <td><input type="button" value="삭제"></td>`;
+
         $('#flag').append(tempHtml);
     }
 

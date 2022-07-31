@@ -24,9 +24,6 @@ public class BoardService {
     @Transactional
     public String update(Long id, BoardRequestDto boardRequestDto) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다."));
-        log.info("board password={}", board.getPassword());
-        log.info("update password={}", boardRequestDto.getPassword());
-        System.out.println(boardRequestDto.getAuthor()+"작성자는");
         if(board.getPassword().equals(boardRequestDto.getPassword())){
             board.update(boardRequestDto);
             return board.getId()+"번 수정완료";
