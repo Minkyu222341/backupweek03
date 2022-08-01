@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class BoardRequestDto {
-    private String author;
     private String title;
-    private String password;
     private String content;
 }

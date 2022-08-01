@@ -11,15 +11,14 @@ public class BoardResponseDto {
 
     private Long id;
     private String title;
-    private String author;
-    private String content;
     private LocalDateTime createdAt;
+    private String username;
 
-    public BoardResponseDto(Board board) {
+    public BoardResponseDto(Board board,String username) {
         this.id = board.getId();
         this.title = board.getTitle();
-        this.author = board.getAuthor();
         this.createdAt = board.getCreatedAt();
+        this.username = username;
     }
 
 }

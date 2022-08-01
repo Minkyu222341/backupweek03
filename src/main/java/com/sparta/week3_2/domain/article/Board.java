@@ -1,9 +1,9 @@
 package com.sparta.week3_2.domain.article;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sparta.week3_2.domain.User.User;
 import com.sparta.week3_2.domain.comment.Comment;
-import com.sparta.week3_2.domain.comment.CommentResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,36 +23,29 @@ public class Board extends Timestamped {
     private String title;
 
     @Column(nullable = false)
-    private String author;
-
-    @JsonIgnore
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
     private String content;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
 
-    public Board(BoardRequestDto boardRequestDto) {
-        this.author = boardRequestDto.getAuthor();
-        this.password = boardRequestDto.getPassword();
+
+    public Board(BoardRequestDto boardRequestDto,User user) {
         this.content = boardRequestDto.getContent();
         this.title = boardRequestDto.getTitle();
+        this.user = user;
     }
 
-    public void update(BoardRequestDto boardRequestDto) {
-        this.author = boardRequestDto.getAuthor();
-        this.password = boardRequestDto.getPassword();
+    public void update(BoardRequestDto boardRequestDto,User user) {
         this.content = boardRequestDto.getContent();
         this.title = boardRequestDto.getTitle();
+        this.user = user;
     }
 
-    public Board(Board board, CommentResponseDto commentResponseDto) {
-
-    }
 
 }

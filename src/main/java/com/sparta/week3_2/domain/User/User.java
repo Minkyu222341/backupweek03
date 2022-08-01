@@ -1,9 +1,13 @@
 package com.sparta.week3_2.domain.User;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sparta.week3_2.domain.article.Board;
+import com.sparta.week3_2.domain.comment.Comment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -23,6 +27,14 @@ public class User {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
+    private List<Board> board;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
+    private List<Comment> Comment;
 
     public User(String username, String password, String email) {
         this.username = username;

@@ -32,14 +32,13 @@ public class UserService {
         if (found.isPresent()) {
             throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
         }
-        if(requestDto.getPassword().equals(requestDto.getPasswordValid())){
             // 패스워드 암호화
             String password = passwordEncoder.encode(requestDto.getPassword());
             String email = requestDto.getEmail();
 
             User user = new User(username, password, email);
             userRepository.save(user);
-        }
+
     }
 
 }
