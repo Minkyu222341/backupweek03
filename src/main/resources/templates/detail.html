@@ -7,6 +7,14 @@
     <title>Title</title>
 </head>
 
+<style>
+    td{
+        border: 1px solid black;
+    }
+
+</style>
+
+
 <script>
 
 
@@ -17,20 +25,21 @@
         let id = $('#num').text();
         $.ajax({
             type: 'GET',
-            url: `/board/${id}/comment`,
+            url: `/board/detail/${id}/comment`,
             success: function (response) {
                 for (let i = 0; i < response.length; i++) {
                     let message = response[i];
                     let text = message['text'];
                     let username = message['username'];
-                    addHtml(text,username);
+                    let createdAt = message['createdAt'];
+                    addHtml(text,username,createdAt);
                 }
             }
         })
     }
 
-    function addHtml(text,username) {
-        let tempHtml=`<td>${text}</td><td>${username}</td>
+    function addHtml(text,username,createdAt) {
+        let tempHtml=`<td>${username}</td><td>${text}</td><td>${createdAt}</td>
                         <td><input type="button" value="수정"></td>
                         <td><input type="button" value="삭제"></td>`;
 
@@ -44,7 +53,7 @@
         let id =  $('#num').text();
         $.ajax({
             type: "DELETE",
-            url: `/board/${id}`,
+            url: `/auth/board/${id}`,
             contentType: "application/json",
             success: function (response) {
                 window.location.href="/";
@@ -54,7 +63,7 @@
 
     function updateForm() {
         let id =  $('#num').text();
-        location.href = "/board/update/" + id;
+        location.href = "/auth/board/update/" + id;
     }
 
     function addComment() {

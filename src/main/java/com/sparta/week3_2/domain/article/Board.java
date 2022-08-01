@@ -2,6 +2,7 @@ package com.sparta.week3_2.domain.article;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparta.week3_2.domain.comment.Comment;
+import com.sparta.week3_2.domain.comment.CommentResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,6 +31,7 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private String content;
 
+
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
@@ -46,6 +48,10 @@ public class Board extends Timestamped {
         this.password = boardRequestDto.getPassword();
         this.content = boardRequestDto.getContent();
         this.title = boardRequestDto.getTitle();
+    }
+
+    public Board(Board board, CommentResponseDto commentResponseDto) {
+
     }
 
 }

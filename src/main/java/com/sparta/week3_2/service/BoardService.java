@@ -1,8 +1,8 @@
 package com.sparta.week3_2.service;
 
 import com.sparta.week3_2.domain.article.Board;
-import com.sparta.week3_2.domain.article.BoardResponseDto;
 import com.sparta.week3_2.domain.article.BoardRequestDto;
+import com.sparta.week3_2.domain.article.BoardResponseDto;
 import com.sparta.week3_2.domain.article.BoardValidDto;
 import com.sparta.week3_2.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -55,8 +54,9 @@ public class BoardService {
         return responseDto;
     }
 
-    public Optional<Board> detailPost(Long id) {
-        return boardRepository.findById(id);
+    public Board detailPost(Long id) {
+        return boardRepository.findById(id).orElseThrow((() -> new IllegalArgumentException("아이디가 존재하지 않습니다")));
+
     }
 
     public Board savePost(BoardRequestDto boardRequestDto) {

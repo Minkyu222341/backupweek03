@@ -22,4 +22,5 @@ public class BoardResponseDto {
         this.createdAt = board.getCreatedAt();
     }
 
+
 }
