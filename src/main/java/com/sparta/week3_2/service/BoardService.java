@@ -3,7 +3,6 @@ package com.sparta.week3_2.service;
 import com.sparta.week3_2.domain.article.Board;
 import com.sparta.week3_2.domain.article.BoardRequestDto;
 import com.sparta.week3_2.domain.article.BoardResponseDto;
-import com.sparta.week3_2.domain.article.BoardValidDto;
 import com.sparta.week3_2.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +22,7 @@ public class BoardService {
     @Transactional
     public String update(Long id, BoardRequestDto boardRequestDto) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다."));
-        if(board.getPassword().equals(boardRequestDto.getPassword())){
-            board.update(boardRequestDto);
-            return board.getId()+"번 수정완료";
-        }else {
-            return "비밀번호를 확인해주세요";
-        }
+        return board.getId()+"번 수정완료";
     }
 
     public String delete(Long id) {
@@ -37,14 +31,15 @@ public class BoardService {
         return board.getId()+"번 삭제완료";
     }
 
-    public Boolean validPwd(Long id, BoardValidDto boardValidDto) {
-        Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다"));
-        if (board.getPassword().equals(boardValidDto.getPassword())) {
-            return true;
-        }else{
-            return false;
-        }
-    }
+//    public Boolean validPwd(Long id, BoardValidDto boardValidDto) {
+//        Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다"));
+//        if (board.getPassword().equals(boardValidDto.getPassword())) {
+//            return true;
+//        }else{
+//            return false;
+//        }
+//    }
+
     public List<BoardResponseDto> getBoardList() {
         List<Board> all = boardRepository.findAllByOrderByCreatedAtDesc();
         List<BoardResponseDto> responseDto = new ArrayList<>();

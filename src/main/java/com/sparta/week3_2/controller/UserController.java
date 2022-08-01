@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,9 +28,9 @@ public class UserController {
 
     // 회원 가입 요청 처리
     @PostMapping("/user/signup")
-    public String registerUser(SignupRequestDto requestDto) {
+    public String registerUser(@RequestBody SignupRequestDto requestDto) {
         userService.registerUser(requestDto);
-        return "redirect:/user/login";
+        return "1";
     }
 
 }

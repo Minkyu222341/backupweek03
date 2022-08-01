@@ -1,6 +1,7 @@
 package com.sparta.week3_2.domain.article;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.week3_2.domain.comment.Comment;
 import com.sparta.week3_2.domain.comment.CommentResponseDto;
 import lombok.Getter;
@@ -31,7 +32,7 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private String content;
 
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 

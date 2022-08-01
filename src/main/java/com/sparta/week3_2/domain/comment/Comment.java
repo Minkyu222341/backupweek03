@@ -1,6 +1,7 @@
 package com.sparta.week3_2.domain.comment;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sparta.week3_2.domain.article.Board;
 import com.sparta.week3_2.domain.article.Timestamped;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class Comment extends Timestamped {
 
     @ManyToOne
     @JoinColumn(name = "board_id")
+    @JsonBackReference
     private Board board;
 
 
