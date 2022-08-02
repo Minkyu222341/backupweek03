@@ -40,11 +40,13 @@ public class BoardService {
 
     public String delete(Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다"));
+        log.info("게시글 인덱스={}",board.getUser().getId());
+        log.info("유저 인덱스={}",userDetails.getUser().getId());
         return validDelete(userDetails, board);
     }
 
     private String validDelete(UserDetailsImpl userDetails, Board board) {
-        if (board.getId().equals(userDetails.getUser().getId())) {
+        if (board.getUser().getId().equals(userDetails.getUser().getId())) {
             boardRepository.deleteById(board.getId());
             return board.getId()+"번 삭제완료";
         }

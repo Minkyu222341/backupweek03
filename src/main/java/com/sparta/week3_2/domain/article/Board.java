@@ -25,6 +25,7 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private String content;
 
+//    cascade = CascadeType.ALL, orphanRemoval=true
     @JsonManagedReference
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Comment> comments;

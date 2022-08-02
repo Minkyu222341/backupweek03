@@ -5,7 +5,6 @@ import com.sparta.week3_2.domain.article.BoardRequestDto;
 import com.sparta.week3_2.domain.article.BoardResponseDto;
 import com.sparta.week3_2.security.UserDetailsImpl;
 import com.sparta.week3_2.service.BoardService;
-import com.sparta.week3_2.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +19,6 @@ public class BoardController {
 
 
     private final BoardService boardService;
-    private final CommentService commentService;
 
     @GetMapping("/board")
         public List<BoardResponseDto> getList() {
@@ -47,7 +45,7 @@ public class BoardController {
 
     @DeleteMapping("/auth/board/{id}")
     public String delPost(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        log.info("삭제호출={}",id);
+
         return boardService.delete(id,userDetails);
     }
 
